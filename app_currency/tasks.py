@@ -1,22 +1,19 @@
 from celery import shared_task
 import logging
-from .eskhata import fetch_currency_data
+from .currency_fetcher import fetch_all_currency_data
 from .models import Currency
 from celery import Celery
 from celery.schedules import crontab
 
-#logger = logging.getLogger('django')  # Используем логгер для django
-logger = logging.getLogger('app_currency')  # Используем свой логгер, который мы настроили в LOGGING
-#logger = logging.getLogger(__name__)  # Использование логгера для текущего модуля
-
+# Используем логгер для вашего приложения
+logger = logging.getLogger('app_currency')
 
 @shared_task
 def update_currency():
     logger.debug("Задача обновления валюты стартовала")  # Логирование начала
-    print("Задача обновления валюты стартовала")  # Добавим вывод в консоль
     try:
         logger.debug("Задача: пытаемся получить данные о валюте...")
-        data = fetch_currency_data()  # Вызов парсера
+        data = fetch_all_currency_data()  # Вызов парсера
         logger.debug("Данные о валюте получены: %s", data)
 
         if not data:
@@ -50,8 +47,7 @@ def update_currency():
     except Exception as e:
         logger.error("Ошибка при обновлении курса валют: %s", str(e))
 
-
-
+# Создаем объект Celery
 app = Celery('currency')
 
 @app.on_after_configure.connect
@@ -59,5 +55,5 @@ def setup_periodic_tasks(sender, **kwargs):
     # Ставим задачу на выполнение каждую минуту
     sender.add_periodic_task(
         crontab(minute='*'),
-        update_currency.s(),
+        update_currency.s(),  # Запускаем задачу
     )

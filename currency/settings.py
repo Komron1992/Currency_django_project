@@ -27,8 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'app_currency.CustomUser'
 # Application definition
+
+LOGIN_REDIRECT_URL = 'currency_list'  # Перенаправление после успешного входа
+LOGIN_URL = 'login'  # Это имя вашего пути для страницы входа
+LOGOUT_REDIRECT_URL = 'login'  # Перенаправить на страницу входа после выхода
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +43,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_currency',
+    'rest_framework',
+    'rest_framework.authtoken',  # добавьте эту строку
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# Для поддержки сессий в случае использования JWT
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'rest_framework.authentication.SessionAuthentication',
 ]
 
 # Celery settings

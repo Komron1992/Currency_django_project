@@ -7,68 +7,68 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
-# Настройки Chrome
+# Setting Chrome
 def setup_chrome_options():
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Запуск в безголовом режиме (без графического интерфейса)
-    chrome_options.add_argument("--disable-gpu")  # Для Windows, чтобы избежать проблем с GPU
-    chrome_options.add_argument("--no-sandbox")  # Для некоторых систем (например, на сервере)
+    chrome_options.add_argument("--headless")  # Run in headless mode (no GUI)
+    chrome_options.add_argument("--disable-gpu")  # For Windows to avoid GPU issues
+    chrome_options.add_argument("--no-sandbox")  # For some systems (eg on a server)
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-plugins")
 
-    # Отключаем загрузку изображений (экономия трафика)
+    # Disable image loading (saving traffic)
     prefs = {"profile.managed_default_content_settings.images": 2}
     chrome_options.add_experimental_option("prefs", prefs)
 
     return chrome_options
 
-# Функция для создания и настройки драйвера
+# Function for creating and configuring a driver
 def create_driver():
     chrome_options = setup_chrome_options()
 
-    # Указываем путь к ChromeDriver
+    # Specify the path to ChromeDriver
     try:
         service = Service(ChromeDriverManager().install())
     except Exception as e:
-        print(f"Ошибка при установке ChromeDriver: {e}")
+        print(f"Error installing ChromeDriver: {e}")
         exit(1)
 
-    # Инициализация драйвера
+    # Initializing the driver
     driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver.set_page_load_timeout(120)  # Увеличиваем время ожидания для загрузки страницы
+    driver.set_page_load_timeout(120)  # Increase the waiting time for page loading
 
     return driver
 
-# Функция для получения данных о валюте (без атрибута driver)
+# Function to get currency data (without driver attribute)
 def fetch_currency_data_imon():
     try:
-        # Создаем драйвер внутри функции
+        # Create a driver inside a function
         driver = create_driver()
 
-        # URL и время ожидания задаются внутри функции
+        # The URL and timeout are set inside the function
         url = 'https://www.imon.tj/'
         wait_time = 120
 
-        # Переходим на страницу
+        # Let's go to the page
         driver.get(url)
 
-        # Увеличиваем время ожидания для нахождения элементов
+        # Increase the wait time for finding elements
         try:
             currencies = WebDriverWait(driver, wait_time).until(
                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.currancy'))
             )
 
-            # Ищем элементы, относящиеся к валютам
+            # We are looking for elements related to currencies
             currency_blocks = driver.find_elements(By.CSS_SELECTOR, 'div.col-12.col-md')
 
-            # Для каждой валюты ищем значения "Харид" и "Фуруш"
+            # For each currency we look for the values of "Harid" and "Furush"
             currency_data = {}
 
             for block in currency_blocks:
                 try:
-                    # Для Доллара
+                    # For Dollar
                     if 'dollar.svg' in block.get_attribute('innerHTML'):
-                        currency_name = "Доллар"
+                        currency_name = "Dollar"
                         try:
                             buy_value = block.find_element(By.XPATH,
                                                            ".//p[contains(text(), 'Харид')]/following-sibling::div//span[contains(@class, 'buy-dollar')]").text.strip()
@@ -77,9 +77,9 @@ def fetch_currency_data_imon():
                         except NoSuchElementException:
                             continue
 
-                    # Для Евро
+                    # For Euro
                     elif 'euro.svg' in block.get_attribute('innerHTML'):
-                        currency_name = "Евро"
+                        currency_name = "EURO"
                         try:
                             buy_value = block.find_element(By.XPATH,
                                                            ".//p[contains(text(), 'Харид')]/following-sibling::div//span[contains(@class, 'buy-dollar')]").text.strip()
@@ -88,9 +88,9 @@ def fetch_currency_data_imon():
                         except NoSuchElementException:
                             continue
 
-                    # Для Рубля
+                    # For the Ruble
                     elif 'rub.svg' in block.get_attribute('innerHTML'):
-                        currency_name = "Рубль"
+                        currency_name = "Ruble"
                         try:
                             buy_value = block.find_element(By.XPATH,
                                                            ".//p[contains(text(), 'Харид')]/following-sibling::div//span[contains(@class, 'buy-dollar')]").text.strip()
@@ -102,37 +102,37 @@ def fetch_currency_data_imon():
                     else:
                         continue
 
-                    # Добавляем данные о валюте в словарь
+                    # Adding currency data to the dictionary
                     currency_data[currency_name] = {
                         'buy': buy_value,
                         'sell': sell_value
                     }
 
                 except NoSuchElementException as e:
-                    print(f"Не удалось найти данные для валюты: {e}")
+                    print(f"Unable to find data for currency: {e}")
 
-            # Возвращаем словарь с данными о валютах
+            # Return a dictionary with currency data
             if currency_data:
                 return currency_data
             else:
-                print("Не удалось найти данные для валют.")
+                print("Unable to find data for currencies.")
                 return {}
 
         except TimeoutException:
-            print("Элементы с валютами не найдены на странице.")
+            print("No currency items found on page.")
             return {}
 
     except Exception as e:
-        print(f"Произошла ошибка: {e}")
+        print(f"An error occurred: {e}")
         return {}
 
     finally:
-        # Закрываем браузер
+        # Close brauser
         driver.quit()
 
 
-# Пример использования:
+# Example of use:
 currency_data = fetch_currency_data_imon()
 
-# Выводим результат в формате словаря
+# We output the result in dictionary format
 print(currency_data)

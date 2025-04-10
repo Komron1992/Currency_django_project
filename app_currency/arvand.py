@@ -3,34 +3,34 @@ import requests
 import warnings
 from urllib3.exceptions import InsecureRequestWarning
 
-# Отключаем предупреждения SSL
+# Disabling SSL warnings
 warnings.simplefilter('ignore', InsecureRequestWarning)
 
 
 def fetch_currency_data_arvand():
     url = 'https://arvand.tj/api/currencies/'
 
-    # Отправляем GET-запрос с отключенной проверкой SSL-сертификата
-    print(f"Отправка запроса к {url}...")  # Добавляем вывод, чтобы видеть запрос
+    # Sending a GET request with SSL certificate verification disabled
+    print(f"Отправка запроса к {url}...")  # Add output to see the request
     response = requests.get(url, verify=False)
 
-    # Проверяем, что запрос прошел успешно
+    # We check that the request was successful
     if response.status_code == 200:
-        print(f"Получен успешный ответ с кодом {response.status_code}")  # Логируем успешный ответ
-        # Преобразуем ответ в JSON
+        print(f"Received a successful response with code {response.status_code}")  # Logging a successful response
+        # Convert the response to JSON
         data = response.json()
-        print(f"Ответ от сервера: {data}")  # Логируем ответ сервера
+        print(f"Response from the server: {data}")  # Logging the server response
 
         currencies = {}
 
-        # Печатаем курсы валют
+        # We print exchange rates
         for currency_info in data:
             currency_name = currency_info['currency_name']
             buy_rate = currency_info['buy_rate']
             sell_rate = currency_info['sell_rate']
             type_currency = currency_info['type_currency']
 
-            # Если курс для типа CASH_RATE, сохраняем его
+            # If the rate is for the CASH_RATE type, we save it
             if type_currency == 'CASH_RATE':
                 if currency_name not in currencies:
                     currencies[currency_name] = {
@@ -39,15 +39,15 @@ def fetch_currency_data_arvand():
                     }
 
         if currencies:
-            print(f"Найденные валюты: {currencies}")  # Логируем, что были найдены валюты
+            print(f"Find currency: {currencies}")  # We log that currencies were found
         else:
-            print("Не найдено валют с типом CASH_RATE.")  # Если нет валют с типом CASH_RATE
+            print("No currencies with type CASH_RATE found.")  # If there are no currencies with the CASH_RATE type
 
-        # Возвращаем полученные данные
+        # We return the received data
         return currencies
 
     else:
-        print(f"Ошибка при запросе данных, статус код: {response.status_code}")
+        print(f"Error while requesting data, status code: {response.status_code}")
         return None
 data = fetch_currency_data_arvand()
 print(data)

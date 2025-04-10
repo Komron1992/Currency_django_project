@@ -21,6 +21,11 @@
 </head>
 <body>
 
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Выйти</button>
+</form>
+
 <h2>Курсы валют</h2>
 <h3>Банк Эсхата</h3>
 
@@ -128,6 +133,33 @@
     </table>
 {% else %}
     <p>Данные с Банка Ориёнбонк не найдены.</p>
+{% endif %}
+
+
+<h2>Курсы валют</h2>
+<h3>Банк Амонатбонк</h3>
+
+{% if data_amonatbonk %}
+    <table>
+        <thead>
+            <tr>
+                <th>Валюта</th>
+                <th>Банк покупает</th>
+                <th>Банк продает</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for currency, data_amonatbonk in data_amonatbonk.items %}
+                <tr>
+                    <td>{{ currency }}</td> <!-- Используем название валюты -->
+                    <td>{{ data_amonatbonk.buy }}</td>
+                    <td>{{ data_amonatbonk.sell}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Данные с Банка Амонатбонк не найдены.</p>
 {% endif %}
 
 

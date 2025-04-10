@@ -13,7 +13,6 @@ def fetch_currency_data():
     items_word = soup.find_all('th')
     items = soup.find_all('td')
 
-    # Результат для каждой валюты
     result = {
         'usd': {
             'currency': items[0].text.strip(),
@@ -36,5 +35,7 @@ def fetch_currency_data():
     }
 
     return result
-data = fetch_currency_data()
-print(data)
+
+if __name__ == '__main__':
+    data = fetch_currency_data()
+    print(data)
