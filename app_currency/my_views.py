@@ -1,89 +1,60 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm
 from .forms import CustomLoginForm  # Импортируйте вашу форму
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from .models import Currency  # если у вас есть модель Currency
-from .eskhata import fetch_currency_data  # Импортируем функцию парсинга
-from .arvand import fetch_currency_data_arvand
-from .imon import fetch_currency_data_imon
-from .orionbonk import fetch_currency_data_orionbonk
-from .amonatbonk import fetch_currency_data_amonatbonk
+from .models import ExchangeRate, Bank, Currency  # если у вас есть модель Currency
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
-from .serializers import CurrencySerializer
+from .serializers import CurrencySerializer, BankSerializer, ExchangeRateSerializer
 from rest_framework import viewsets
 from django.http import JsonResponse
 from .currency_fetcher import fetch_all_currency_data
+from django.core.cache import cache
+from django.core.cache import cache
 
+# Функция для получения и сохранения данных валют с разных источников
 def currency_data_view(request):
-    # Получаем данные
-    data = fetch_all_currency_data()
+    try:
+        # Получаем и сохраняем данные со всех источников
+        fetch_all_currency_data()
 
-    if data:
-        return JsonResponse(data)
-    else:
-        return JsonResponse({"detail": "Не удалось получить данные."}, status=500)
+        # ❗ Очищаем кеш после обновления данных
+        cache.delete('exchange_rates_by_bank')
 
-# Представление, которое передает данные из обоих источников в шаблон
+        # Получаем данные из базы
+        currencies = Currency.objects.all()
+        data = CurrencySerializer(currencies, many=True).data
+        return JsonResponse(data, safe=False)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+# Представление для отображения данных с разных источников
 @login_required
 def currency_list(request):
-    try:
-        # Получаем данные с сайта Eskhata
-        eskhata_data = fetch_currency_data()
-    except Exception as e:
-        eskhata_data = None
-        print(f"Ошибка при получении данных с Eskhata: {e}")
+    banks = Bank.objects.all()
+    data = {}
 
-    try:
-        # Получаем данные с сайта Arvand
-        arvand_data = fetch_currency_data_arvand()
-    except Exception as e:
-        arvand_data = None
-        print(f"Ошибка при получении данных с Arvand: {e}")
+    for bank in banks:
+        rates = ExchangeRate.objects.filter(bank=bank).select_related('currency').order_by('currency__code')
+        if rates.exists():
+            bank_data = {}
+            for rate in rates:
+                bank_data[rate.currency.code] = {
+                    'buy': rate.buy,
+                    'sell': rate.sell
+                }
+            data[bank.name] = bank_data  # Используем name, а не code
+        else:
+            data[bank.name] = None
 
-    try:
-        # Получаем данные с сайта Imon
-        imon_data = fetch_currency_data_imon()
-    except Exception as e:
-        imon_data = None
-        print(f"Ошибка при получении данных с Imon: {e}")
+    return render(request, 'currency_list.html', {'data': data})
 
-    try:
-        # Получаем данные с сайта OrionBonk
-        orionbonk_data = fetch_currency_data_orionbonk()
-    except Exception as e:
-        orionbonk_data = None
-        print(f"Ошибка при получении данных с OrionBonk: {e}")
-
-    try:
-        # Получаем данные с сайта OrionBonk
-        amonatbonk_data = fetch_currency_data_amonatbonk()
-    except Exception as e:
-        amonatbonk_data = None
-        print(f"Ошибка при получении данных с OrionBonk: {e}")
-
-    # Печать всех данных для отладки
-    print("Данные с Eskhata:", eskhata_data)
-    print("Данные с Arvand:", arvand_data)
-    print("Данные с Imon:", imon_data)
-    print("Данные с OrionBonk:", orionbonk_data)
-    print("Данные с Amonatbonk:", amonatbonk_data)
-
-    # Передаем данные в шаблон
-    return render(request, 'currency_list.html', {
-        'data_eskhata': eskhata_data,
-        'data_arvand': arvand_data,
-        'data_imon': imon_data,
-        'data_orionbonk': orionbonk_data,
-        'data_amonatbonk': amonatbonk_data
-    })
-
-
+# Представление для регистрации нового пользователя
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -99,6 +70,7 @@ def register(request):
 
     return render(request, 'register.html', {'form': form})
 
+# Представление для входа пользователя
 def custom_login(request):
     if request.method == "POST":
         form = CustomLoginForm(request, data=request.POST)
@@ -117,12 +89,14 @@ def custom_login(request):
 
     return render(request, 'login.html', {'form': form})
 
+# Пример защищённого представления
 class ProtectedView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         return Response({"message": "This is a protected view!"})
 
+# Представление для получения списка валют
 class CurrencyList(APIView):
     def get(self, request):
         currencies = Currency.objects.all()  # Получаем все валюты
@@ -136,6 +110,77 @@ class CurrencyList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# ViewSet для валют
 class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
+
+# Новый API для отображения валютных курсов с форматированием
+class ExchangeRateFormattedView(APIView):
+    def get(self, request):
+        # Получаем данные из базы данных (ExchangeRate)
+        rates = ExchangeRate.objects.all().select_related('currency', 'bank').order_by('currency__code', 'bank__name')
+
+        # Проверяем, если данные есть
+        if not rates:
+            return Response({"message": "No exchange rates found in the database"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Форматируем данные для вывода
+        formatted = []
+        for item in rates:
+            currency = item.currency.code  # Например, USD
+            buy = item.buy  # Цена покупки
+            sell = item.sell  # Цена продажи
+            bank = item.bank.name  # Название банка
+            line = f"{currency} — buy: {buy}, sell: {sell}, Source: {bank}"
+            formatted.append(line)
+
+        # Возвращаем данные в нужном формате
+        return Response({
+            "message": "Exchange rates of all banks",
+            "data": formatted
+        })
+
+
+# Новый API: Курсы валют по банкам в формате словаря
+class ExchangeRatesByBankView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        cache_key = 'exchange_rates_by_bank'
+        data = cache.get(cache_key)
+
+        if not data:
+            print("🔄 Получаем данные из базы...")
+            banks = Bank.objects.all()
+            result = {}
+
+            for bank in banks:
+                rates = ExchangeRate.objects.filter(bank=bank).select_related('currency')
+                if rates.exists():
+                    currency_data = {
+                        rate.currency.code: {
+                            "buy": rate.buy,
+                            "sell": rate.sell
+                        }
+                        for rate in rates
+                    }
+                    result[bank.name] = currency_data
+                else:
+                    result[bank.name] = None
+
+            data = result
+            cache.set(cache_key, data, timeout=3600)  # кешируем на 1 час
+
+        else:
+            print("✅ Данные из кеша")
+
+        return Response(data)
+
+class BankViewSet(viewsets.ModelViewSet):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
+
+class ExchangeRateViewSet(viewsets.ModelViewSet):
+    queryset = ExchangeRate.objects.all().select_related('currency', 'bank')
+    serializer_class = ExchangeRateSerializer

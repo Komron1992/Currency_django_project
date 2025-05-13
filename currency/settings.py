@@ -93,29 +93,16 @@ CELERY_BEAT_SCHEDULE = {
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,  # Отключение существующих логгеров
     'handlers': {
         'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',  # Это отправляет логи в консоль
+            'level': 'ERROR',  # Логировать только ошибки, чтобы уменьшить вывод
+            'class': 'logging.StreamHandler',
         },
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'celery': {  # Логгер для Celery
-            'handlers': ['console'],
-            'level': 'DEBUG',  # Устанавливаем уровень DEBUG для Celery
-            'propagate': True,
-        },
-        'app_currency': {  # Логгер для задач в приложении `app_currency`
-            'handlers': ['console'],
-            'level': 'DEBUG',  # Устанавливаем уровень DEBUG для вашего приложения
-            'propagate': True,
-        },
+    'root': {
+        'handlers': ['console'],
+        'level': 'ERROR',
     },
 }
 

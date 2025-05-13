@@ -27,141 +27,33 @@
 </form>
 
 <h2>Курсы валют</h2>
-<h3>Банк Эсхата</h3>
 
-{% if data_eskhata %}
-    <table>
-        <thead>
-            <tr>
-                <th>Валюта</th>
-                <th>Банк покупает</th>
-                <th>Банк продает</th>
-                <th>Курс НБТ</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for currency, data in data_eskhata.items %}
+{% for bank_name, bank_data in data.items %}
+    <h3>Банк {{ bank_name }}</h3>
+
+    {% if bank_data %}
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ data.currency }}</td>
-                    <td>{{ data.buy }}</td>
-                    <td>{{ data.sell }}</td>
-                    <td>{{ data.nbt }}</td>
+                    <th>Валюта</th>
+                    <th>Банк покупает</th>
+                    <th>Банк продает</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Данные с Банка Эсхата не найдены.</p>
-{% endif %}
-
-<h2>Курсы валют</h2>
-<h3>Банк Арванд</h3>
-
-{% if data_arvand %}
-    <table>
-        <thead>
-            <tr>
-                <th>Валюта</th>
-                <th>Банк покупает</th>
-                <th>Банк продает</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for currency, data_arvand in data_arvand.items %}
-                <tr>
-                    <td>{{ currency }}</td> <!-- Используем название валюты -->
-                    <td>{{ data_arvand.buy_rate }}</td>
-                    <td>{{ data_arvand.sell_rate }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Данные с Банка Арванд не найдены.</p>
-{% endif %}
-
-
-
-<h2>Курсы валют</h2>
-<h3>Банк Имон</h3>
-
-{% if data_imon %}
-    <table>
-        <thead>
-            <tr>
-                <th>Валюта</th>
-                <th>Банк покупает</th>
-                <th>Банк продает</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for currency, data_imon in data_imon.items %}
-                <tr>
-                    <td>{{ currency }}</td> <!-- Используем название валюты -->
-                    <td>{{ data_imon.buy }}</td>
-                    <td>{{ data_imon.sell }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Данные с Банка Имон не найдены.</p>
-{% endif %}
-
-
-<h2>Курсы валют</h2>
-<h3>Банк Ориёнбонк</h3>
-
-{% if data_orionbonk %}
-    <table>
-        <thead>
-            <tr>
-                <th>Валюта</th>
-                <th>Банк покупает</th>
-                <th>Банк продает</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for currency, data_orionbonk in data_orionbonk.items %}
-                <tr>
-                    <td>{{ currency }}</td> <!-- Используем название валюты -->
-                    <td>{{ data_orionbonk.buy_price }}</td>
-                    <td>{{ data_orionbonk.sell_price}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Данные с Банка Ориёнбонк не найдены.</p>
-{% endif %}
-
-
-<h2>Курсы валют</h2>
-<h3>Банк Амонатбонк</h3>
-
-{% if data_amonatbonk %}
-    <table>
-        <thead>
-            <tr>
-                <th>Валюта</th>
-                <th>Банк покупает</th>
-                <th>Банк продает</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for currency, data_amonatbonk in data_amonatbonk.items %}
-                <tr>
-                    <td>{{ currency }}</td> <!-- Используем название валюты -->
-                    <td>{{ data_amonatbonk.buy }}</td>
-                    <td>{{ data_amonatbonk.sell}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>Данные с Банка Амонатбонк не найдены.</p>
-{% endif %}
-
+            </thead>
+            <tbody>
+                {% for currency_code, rates in bank_data.items %}
+                    <tr>
+                        <td>{{ currency_code }}</td>
+                        <td>{{ rates.buy }}</td>
+                        <td>{{ rates.sell }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Данные с этого банка не найдены.</p>
+    {% endif %}
+{% endfor %}
 
 </body>
 </html>

@@ -6,6 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from .models import Currency, Bank, ExchangeRate
 
 # Setting Chrome
 def setup_chrome_options():
@@ -39,10 +40,25 @@ def create_driver():
 
     return driver
 
-# Function to get currency data (without driver attribute)
+# Function to save currency data to database
+def save_currency_data(currency_code, buy_rate, sell_rate, bank_name):
+    # Check if the currency exists in the database
+    currency, created = Currency.objects.get_or_create(code=currency_code)
+
+    # Get or create the bank
+    bank, created = Bank.objects.get_or_create(name=bank_name)
+
+    # Create a record of the exchange rate for the bank
+    ExchangeRate.objects.create(
+        bank=bank,
+        currency=currency,
+        buy=buy_rate,
+        sell=sell_rate
+    )
+
 def fetch_currency_data_imon():
     try:
-        # Create a driver inside a function
+        # Create a driver inside the function
         driver = create_driver()
 
         # The URL and timeout are set inside the function
@@ -127,12 +143,32 @@ def fetch_currency_data_imon():
         return {}
 
     finally:
-        # Close brauser
+        # Close browser
         driver.quit()
 
+def fetch_and_save_currency_data_imon():
+    # Fetch the currency data from Imon
+    data = fetch_currency_data_imon()
+
+    if data:
+        # Save USD data
+        if 'Dollar' in data:
+            dollar_data = data['Dollar']
+            save_currency_data('USD', dollar_data['buy'], dollar_data['sell'], 'Imon')
+
+        # Save EURO data
+        if 'EURO' in data:
+            euro_data = data['EURO']
+            save_currency_data('EUR', euro_data['buy'], euro_data['sell'], 'Imon')
+
+        # Save RUR data
+        if 'Ruble' in data:
+            ruble_data = data['Ruble']
+            save_currency_data('RUR', ruble_data['buy'], ruble_data['sell'], 'Imon')
+
+        print("[✓] Data saved for Imon.")
+    else:
+        print("[!] No data from Imon.")
 
 # Example of use:
-currency_data = fetch_currency_data_imon()
-
-# We output the result in dictionary format
-print(currency_data)
+fetch_and_save_currency_data_imon()
