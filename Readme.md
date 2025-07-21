@@ -1,42 +1,89 @@
-# 💱 Django Currency Rates Parser
+# 💱 Django Currency Rates Platform
 
-A Django web application that collects and displays real-time currency exchange rates by parsing data from multiple bank websites.
+A full-stack Django & Vue application that fetches, stores, and displays real-time currency exchange rates from various Tajikistan banks using custom parsers.
+
+---
 
 ## 🌍 Features
 
-- 📊 Live currency rates from several banks (via web scraping)
-- 🕵️‍♂️ Custom parser for each bank's website
-- 🔄 Auto-update currency data using scheduled tasks (optional: Celery + Redis)
-- 🧭 Clean UI to view and compare rates
-- 🛠️ Admin panel to manage data manually
-- 🔐 Secure config via `.env` file
+- 📊 Live currency rates from banks (web scraping)
+- 🕵️‍♂️ Individual parser for each bank (Selenium or BeautifulSoup)
+- 🔄 Periodic updates with Celery & Redis
+- 📈 Admin dashboard for manual data control
+- 🧭 Clean and responsive frontend with Vue 3
+- 🔐 Secure `.env`-based configuration
+
+---
 
 ## 🧰 Tech Stack
 
-- **Backend**: Python, Django
-- **Parsing**: `requests`, `BeautifulSoup4`
-- **Scheduling (optional)**: Celery, Redis
-- **Database**: SQLite3 or PostgreSQL
-- **Environment**: `python-dotenv`
+| Layer     | Technology                          |
+|-----------|--------------------------------------|
+| Backend   | Python, Django, DRF, Celery, Redis   |
+| Frontend  | Vue 3, Vite                          |
+| Scraping  | Selenium, BeautifulSoup, Requests    |
+| Database  | PostgreSQL (or SQLite for dev)       |
+| DevOps    | Docker, Docker Compose, Nginx        |
 
-## 🚀 Getting Started
+---
 
-1. **Clone the repo**:
+## 📁 Project Structure
 
 ```bash
+.
+├── app/                  # Django app with bank scrapers and logic
+├── frontend/             # Vue.js admin/public interfaces
+├── myproject/            # Django settings and routing
+├── nginx/                # Nginx configs for prod
+├── static/, templates/   # Static files and templates
+├── entrypoint.sh         # Backend Docker entrypoint
+├── docker-compose.yml    # Full docker environment
+├── requirements.txt      # Python dependencies
+└── README.md             # Project description
+```
+🚀 Getting Started (Locally)
+1. Clone the repo
+```
 git clone https://github.com/Komron1992/Currency_django_project
-cd Currency_django_project
-
-2. Install dependencies:
+```
+2. Create virtual environment & activate
+```
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+3. Install dependencies
+```
 pip install -r requirements.txt
-
-3.Setup database:
+```
+4. Setup database
+```
 python manage.py migrate
-
-4.Run the server:
+```
+5. Run development server
+```
 python manage.py runserver
+```
+🐳 Run via Docker (recommended)
+Make sure Docker & Docker Compose are installed.
+
+1. Create .env file
+```
+DEBUG=1
+SECRET_KEY=your-secret-key
+POSTGRES_DB=db
+POSTGRES_USER=user_name
+POSTGRES_PASSWORD=pass
+```
+2. Build and start containers
+```
+docker-compose up --build
+```
+🛠 Development Tips
+Use docker-compose.override.yml to mount local volumes and enable Vite dev mode
+Use Celery Beat for periodic scraping from banks
+Selenium version managed inside container using webdriver-manager
 
 👤 Author
-Your Name
+Komron Shukurov
 📧 kemeron2016@gmail.com
-🌐 Telegram @kemeron1992
+🌐 Telegram: @kemeron1992
