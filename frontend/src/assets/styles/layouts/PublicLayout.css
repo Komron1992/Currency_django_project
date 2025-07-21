@@ -1,0 +1,31 @@
+.public-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.public-layout__header {
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.public-layout__main {
+  flex: 1;
+  padding: var(--space-6);
+}
+
+.public-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  padding: var(--space-6); /* или нужные отступы */
+}
+
+.public-layout__footer {
+  background: var(--gray-800);
+  color: var(--white);
+  padding: var(--space-6);
+  text-align: center;
+}

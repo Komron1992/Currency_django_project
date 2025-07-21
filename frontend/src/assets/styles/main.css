@@ -1,0 +1,28 @@
+/* Импорт базовых стилей */
+@import './_variables.css';
+@import './_base.css';
+
+/* Импорт стилей layouts */
+@import './layouts/AdminLayout.css';
+@import './layouts/PublicLayout.css';
+@import './layouts/WorkerLayout.css';
+
+/* Импорт стилей компонентов - Admin */
+@import './components/admin/AdminForm.css';
+@import './components/admin/AdminTable.css';
+@import './components/admin/AdminNavbar.css';
+
+/* Импорт стилей компонентов - Public */
+@import './components/public/AppHeader.css';
+@import './components/public/BankCurrencyRates.css';
+@import './components/public/MarketRates.css';
+
+/* Импорт стилей компонентов - Worker */
+@import './components/worker/RateForm.css';
+@import './components/worker/RatesList.css';
+@import './components/worker/WorkerNavbar.css';
+
+/* Импорт стилей views */
+@import './views/admin/AdminDashboard.css';
+@import './views/public/Home.css';
+@import './views/worker/WorkerDashboard.css';

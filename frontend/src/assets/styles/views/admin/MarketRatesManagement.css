@@ -1,0 +1,230 @@
+.market-exchange-rates-management {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.management-content {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  color: #333;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-description {
+  color: #666;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.management-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.form-section,
+.table-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-section h2,
+.table-section h2 {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-section h2::before {
+  content: "➕";
+}
+
+.table-section h2::before {
+  content: "📊";
+}
+
+/* === Стили фильтров для одного ряда === */
+
+.filters-section {
+  margin-bottom: 20px;
+  overflow-x: auto; /* горизонтальная прокрутка при узких экранах */
+  padding-bottom: 8px;
+}
+
+.filters-grid {
+  display: flex;
+  flex-wrap: nowrap; /* все в один ряд */
+  gap: 16px;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px; /* фиксированная ширина, чтобы не сжимались */
+}
+
+.filter-group label {
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: #333;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+  padding: 6px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 150px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-group select:focus,
+.filter-group input[type="date"]:focus {
+  border-color: #409eff;
+  box-shadow: 0 0 5px rgba(64, 158, 255, 0.5);
+  outline: none;
+}
+
+.btn-reset {
+  padding: 8px 16px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  align-self: flex-end;
+  height: 38px;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.btn-reset:hover {
+  background-color: #ddd;
+}
+
+/* Адаптивность: на узких экранах фильтры будут переноситься */
+@media (max-width: 768px) {
+  .filters-grid {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .filter-group select,
+  .filter-group input[type="date"] {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .filter-group {
+    min-width: 120px;
+    flex: 1 1 120px;
+  }
+
+  .btn-reset {
+    width: 100%;
+    height: 40px;
+  }
+}
+
+/* === Остальные стили из вашего оригинала === */
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+  .management-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .management-content {
+    padding: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .form-section,
+  .table-section {
+    padding: 1.5rem;
+  }
+}
+
+/* Добавить эти стили в WorkerManagement.css */
+
+.add-worker-section {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.add-btn {
+  margin-bottom: 15px;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-btn:hover {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+}
+
+.add-btn:active {
+  transform: translateY(0);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .add-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+}

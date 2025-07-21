@@ -1,0 +1,128 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 1rem;
+}
+
+h2, h3 {
+    margin-top: 1.5rem;
+}
+
+.valBlock {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.valTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+    text-align: center;
+    background-color: #00B0EB;
+}
+
+.valBody {
+    overflow-x: auto;
+}
+
+.valData {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.valRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
+
+.valHeader {
+    font-weight: bold;
+    background: #eaeaea;
+}
+
+.valRow > div {
+    width: 33%;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .valRow {
+        flex-direction: column;
+        text-align: left;
+    }
+    .valRow > div {
+        width: 100%;
+        padding: 4px 0;
+    }
+    .valHeader {
+        display: none; /* Скрываем заголовки на мобилке для компактности */
+    }
+}
+
+        /* Пример стилей для сетки из 4 колонок */
+        .valGrid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* расстояние между блоками */
+           }
+
+        .valBlock {
+        flex: 0 0 calc((100% - 3 * 20px) / 4); /* 4 блока + 3 промежутка по 20px */
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 10px;
+        border-radius: 10px;
+        background: white;
+        box-sizing: border-box; /* обязательно */
+            }
+
+        .valBody {
+            margin-top: 10px;
+        }
+
+        .valIcon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px; /* под размер иконки */
+        }
+
+        .valIcon img {
+            width: 40px;
+            height: 40px;
+
+        }
+        .valData > div {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 14px;
+        }
+        .valHeader {
+            font-weight: bold;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+        @media (max-width: 768px) {
+            .valBlock {
+                width: 100%;
+            }
+        }
+

@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "Currency API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "b4aef7b6-8a0a-4f48-bd2b-8321d0f7c8fa"
+  },
+  "item": [
+    {
+      "name": "Register User",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"user1\",\n  \"password1\": \"user1user1\",\n  \"password2\": \"user1user1\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/register/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["register", ""]
+        }
+      }
+    },
+    {
+      "name": "Obtain Auth Token",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"user1\",\n  \"password\": \"user1user1\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api-token-auth/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api-token-auth", ""]
+        }
+      }
+    },
+    {
+      "name": "Get Exchange Rates Formatted (Authenticated)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Token af41b8b363ec4c617a543eb1a5290f23c321c54f"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/api/exchange-formatted/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "exchange-formatted", ""]
+        }
+      }
+    },
+    {
+      "name": "Get Exchange Rates by Bank (Public)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8000/api/exchange-by-bank/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["api", "exchange-by-bank", ""]
+        }
+      }
+    }
+  ]
+}

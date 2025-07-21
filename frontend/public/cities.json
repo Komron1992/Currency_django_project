@@ -1,0 +1,74 @@
+{
+  "cities": [
+    {
+      "id": 1,
+      "name": "Душанбе",
+      "name_en": "Dushanbe",
+      "region": "Душанбе",
+      "is_active": true
+    },
+    {
+      "id": 2,
+      "name": "Худжанд",
+      "name_en": "Khujand",
+      "region": "Согдийская область",
+      "is_active": true
+    },
+    {
+      "id": 3,
+      "name": "Истаравшан",
+      "name_en": "Istaravshan",
+      "region": "Согдийская область",
+      "is_active": true
+    },
+    {
+      "id": 4,
+      "name": "Куляб",
+      "name_en": "Kulob",
+      "region": "Хатлонская область",
+      "is_active": true
+    },
+    {
+      "id": 5,
+      "name": "Курган-Тюбе",
+      "name_en": "Qurghonteppa",
+      "region": "Хатлонская область",
+      "is_active": true
+    },
+    {
+      "id": 6,
+      "name": "Турсунзаде",
+      "name_en": "Tursunzoda",
+      "region": "Районы республиканского подчинения",
+      "is_active": true
+    },
+    {
+      "id": 7,
+      "name": "Канибадам",
+      "name_en": "Kanibadam",
+      "region": "Согдийская область",
+      "is_active": true
+    },
+    {
+      "id": 8,
+      "name": "Пенджикент",
+      "name_en": "Panjakent",
+      "region": "Согдийская область",
+      "is_active": true
+    },
+    {
+      "id": 9,
+      "name": "Хорог",
+      "name_en": "Khorog",
+      "region": "Горно-Бадахшанская автономная область",
+      "is_active": true
+    },
+    {
+      "id": 10,
+      "name": "Вахдат",
+      "name_en": "Vahdat",
+      "region": "Районы республиканского подчинения",
+      "is_active": true
+    }
+  ]
+}

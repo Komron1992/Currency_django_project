@@ -1,0 +1,76 @@
+.admin-form {
+  padding: var(--space-4);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  max-width: 28rem;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.admin-form__group {
+  margin-bottom: var(--space-4);
+}
+
+.admin-form__label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+  color: var(--gray-700);
+}
+
+.admin-form__select,
+.admin-form__input {
+  width: 100%;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  padding: var(--space-2);
+  background: var(--white);
+  font-size: var(--font-size-base);
+  transition: var(--transition);
+}
+
+.admin-form__select:focus,
+.admin-form__input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+}
+
+.admin-form__select:disabled,
+.admin-form__input:disabled {
+  background-color: var(--gray-100);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.admin-form__button {
+  background-color: #2563eb;
+  color: var(--white);
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.admin-form__button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.admin-form__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-form__message {
+  margin-top: var(--space-3);
+}
+
+.admin-form__message--success {
+  color: var(--success-color);
+}
+
+.admin-form__message--error {
+  color: var(--error-color);
+}

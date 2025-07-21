@@ -1,0 +1,314 @@
+/* Глобальные правила для предотвращения выделения и подчеркивания */
+.admin-navbar,
+.admin-navbar *,
+.admin-navbar *::before,
+.admin-navbar *::after {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+.admin-navbar a,
+.admin-navbar a:hover,
+.admin-navbar a:focus,
+.admin-navbar a:visited,
+.admin-navbar a:active {
+  text-decoration: none !important;
+}
+
+.admin-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand .brand-link {
+  text-decoration: none !important;
+  color: inherit;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.navbar-brand .brand-link:hover {
+  text-decoration: none !important;
+}
+
+.navbar-brand .brand-link:focus {
+  text-decoration: none !important;
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.navbar-brand h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  color: white;
+  opacity: 1;
+}
+
+.navbar-brand h2:hover {
+  transform: scale(1.05);
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-button {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: visible;
+  height: 36px;
+  white-space: nowrap;
+  min-width: fit-content;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-button:hover {
+  text-decoration: none !important;
+}
+
+.nav-button:focus {
+  text-decoration: none !important;
+}
+
+.nav-button:visited {
+  text-decoration: none !important;
+}
+
+.nav-button:active {
+  text-decoration: none !important;
+}
+
+.nav-button::selection {
+  background: transparent !important;
+}
+
+.nav-button::-moz-selection {
+  background: transparent !important;
+}
+
+.nav-button:hover::before {
+  display: none;
+}
+
+.nav-button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+.nav-button:active:not(:disabled) {
+  transform: translateY(0);
+  transition: transform 0.1s;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.nav-button.active {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transform: none;
+}
+
+.nav-button.active::after {
+  display: none;
+}
+
+.public-button {
+  background: rgba(46, 204, 113, 0.8) !important;
+  border-color: rgba(46, 204, 113, 0.6) !important;
+}
+
+.public-button:hover:not(:disabled) {
+  background: rgba(46, 204, 113, 0.9) !important;
+  border-color: rgba(46, 204, 113, 0.8) !important;
+}
+
+.logout-button {
+  background: rgba(231, 76, 60, 0.8) !important;
+  border-color: rgba(231, 76, 60, 0.6) !important;
+}
+
+.logout-button:hover:not(:disabled) {
+  background: rgba(231, 76, 60, 0.9) !important;
+  border-color: rgba(231, 76, 60, 0.8) !important;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  height: 36px;
+  white-space: nowrap;
+  min-width: fit-content;
+  user-select: none;
+}
+
+.user-info:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-role {
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Темная тема поддержка */
+@media (prefers-color-scheme: dark) {
+  .admin-navbar {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+}
+
+/* Уменьшение движения для пользователей с чувствительностью */
+@media (prefers-reduced-motion: reduce) {
+  .nav-button,
+  .navbar-brand h2,
+  .brand-link,
+  .user-info {
+    transition: none;
+  }
+
+  .nav-button:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .navbar-brand h2:hover {
+    transform: none;
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+  .admin-navbar {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar-menu {
+    gap: 0.5rem;
+  }
+
+  .nav-button {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    height: 32px;
+  }
+
+  .user-info {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    height: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    position: relative;
+  }
+
+  .navbar-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+  }
+
+  .nav-button {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.5rem;
+    height: 30px;
+    flex: 0 1 auto;
+    min-width: auto;
+  }
+
+  .user-info {
+    order: -1;
+    width: auto;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.75rem;
+    height: 30px;
+  }
+
+  .navbar-brand h2 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-navbar {
+    padding: 0.75rem;
+  }
+
+  .nav-button {
+    min-width: 100%;
+    margin-bottom: 0.25rem;
+  }
+
+  .navbar-menu {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+}

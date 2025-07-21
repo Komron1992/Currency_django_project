@@ -1,0 +1,147 @@
+.admin-table {
+  padding: var(--space-4);
+}
+
+.admin-table__title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  color: var(--gray-700);
+}
+
+.admin-table__loading,
+.admin-table__error,
+.admin-table__empty {
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.admin-table__loading-text {
+  color: var(--gray-500);
+}
+
+.admin-table__error-text {
+  color: var(--error-color);
+}
+
+.admin-table__empty-text {
+  color: var(--gray-500);
+}
+
+.admin-table__retry-button {
+  margin-top: var(--space-2);
+  background-color: var(--primary-color);
+  color: var(--white);
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.admin-table__retry-button:hover {
+  background-color: #1d4ed8;
+}
+
+.admin-table__wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.admin-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+.admin-table__header {
+  background: var(--gray-100);
+}
+
+.admin-table__header-cell {
+  border: 1px solid var(--gray-300);
+  padding: var(--space-2) var(--space-4);
+  text-align: left;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.admin-table__row {
+  transition: var(--transition);
+}
+
+.admin-table__row:hover {
+  background: var(--gray-50);
+}
+
+.admin-table__cell {
+  border: 1px solid var(--gray-300);
+  padding: var(--space-2) var(--space-4);
+}
+
+.admin-table__cell--currency {
+  font-weight: 600;
+}
+
+.admin-table__delete-button {
+  background-color: var(--error-color);
+  color: var(--white);
+  padding: var(--space-1) var(--space-3);
+  border: none;
+  border-radius: var(--radius);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.admin-table__delete-button:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.admin-table__delete-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-table__actions {
+  margin-top: var(--space-4);
+  text-align: right;
+}
+
+.admin-table__refresh-button {
+  background-color: var(--success-color);
+  color: var(--white);
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.admin-table__refresh-button:hover:not(:disabled) {
+  background-color: #047857;
+}
+
+.admin-table__refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .admin-table {
+    padding: var(--space-2);
+  }
+
+  .admin-table__header-cell,
+  .admin-table__cell {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-sm);
+  }
+
+  .admin-table__delete-button {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-xs);
+  }
+}

@@ -1,0 +1,26 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      target: dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # Исключаем node_modules из синхронизации
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true  # Включаем polling для file watching
+      - WATCHPACK_POLLING=true
+      - VITE_HOST=0.0.0.0
+    stdin_open: true
+    tty: true
+    depends_on:
+      - web
+
+  nginx:
+    # В dev режиме отключаем nginx для фронтенда
+    ports: []
+    depends_on:
+      - web  # Убираем зависимость от frontend

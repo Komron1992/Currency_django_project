@@ -1,0 +1,28 @@
+.worker-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--gray-50);
+}
+
+.worker-layout__header {
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.worker-layout__content {
+  flex: 1;
+  display: flex;
+}
+
+.worker-layout__sidebar {
+  width: 200px;
+  background: var(--white);
+  padding: var(--space-4);
+}
+
+.worker-layout__main {
+  flex: 1;
+  padding: var(--space-6);
+}
