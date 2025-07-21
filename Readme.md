@@ -86,4 +86,3 @@ Selenium version managed inside container using webdriver-manager
 👤 Author
 Komron Shukurov
 📧 kemeron2016@gmail.com
-🌐 Telegram: @kemeron1992
